@@ -3,20 +3,16 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-
-file = '.env' if bool(int(os.getenv("PROD", 0))) else '.dev.env'
-
-load_dotenv(os.path.join(Path(__file__).resolve().parent.parent, file))
+load_dotenv(os.path.join(Path(__file__).resolve().parent.parent, '.env'))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG')
 
 ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS').split()
 
@@ -32,11 +28,13 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
-    'rest_framework'
+    'rest_framework',
+
+    'drf_spectacular',
 ]
 
 PROJECT_APPS = [
-    "music"
+    "music",
 ]
 
 INSTALLED_APPS = [
@@ -46,6 +44,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -128,3 +127,5 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+from core.settings.thrid_party import *  # noqa
